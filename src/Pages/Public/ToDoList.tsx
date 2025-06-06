@@ -39,6 +39,8 @@ const ToDoList = () => {
   const [isMobile] = useMediaQuery("(max-width: 1024px)");
 
   // Carregar tarefas do localStorage
+
+  //KARIS
   useEffect(() => {
     const stored = localStorage.getItem("tasks");
     if (stored) {
@@ -52,18 +54,21 @@ const ToDoList = () => {
   }, [tasks]);
 
   /*
-  adicionarTarefa
-  Adiciona uma nova tarefa na lista.
-  Verifica se o campo da nova tarefa (newTask) não está vazio.
-  Cria um objeto de tarefa (task) com título, ID, status de completado falso e datas de criação e atualização.
-  Adiciona essa tarefa à lista de tarefas (setTasks).
-  Limpa o campo de input (setNewTask("")).
-  Mostra um aviso (toast) de sucesso.
+    adicionarTarefa
+    Adiciona uma nova tarefa na lista.
+    Verifica se o campo da nova tarefa (newTask) não está vazio.
+    Cria um objeto de tarefa (task) com título, ID, status de completado falso e datas de criação e atualização.
+    Adiciona essa tarefa à lista de tarefas (setTasks).
+    Limpa o campo de input (setNewTask("")).
+    Mostra um aviso (toast) de sucesso.
   */
+
+  //JULIANO
   const adicionarTarefa = () => {
     if (!newTask.trim()) return;
 
     const now = new Date().toISOString();
+
     const task: Task = {
       id: Math.random().toString(),
       title: newTask,
@@ -85,12 +90,13 @@ const ToDoList = () => {
   Mostra um toast dizendo que a tarefa foi excluída.
  */
 
+  //LEONARDO
   const deletarTarefa = (id: string) => {
     setTasks((prev) => prev?.filter((task) => task.id !== id));
     toast({ title: "Tarefa excluída!", status: "info", duration: 1500 });
   };
 
-/*
+  /*
   completarTarefa
   Marca uma tarefa como completa ou incompleta (toggle).
   Percorre as tarefas.
@@ -118,11 +124,12 @@ const ToDoList = () => {
     );
   };
 
-/*
+  /*
 editarTarefa (Prepara uma tarefa para ser editada.)
 Passo a passo:
 Procura a tarefa pelo ID.
 Se encontrar, salva o ID da tarefa em edição (setEditingTaskId) e o texto atual dela (setEditingText) para editar depois. */
+
   const editarTarefa = (id: string) => {
     const task = tasks.find((t) => t.id === id);
     if (task) {
@@ -131,13 +138,17 @@ Se encontrar, salva o ID da tarefa em edição (setEditingTaskId) e o texto atua
     }
   };
 
-/* handleSaveEdit Salva a edição de uma tarefa.
+  console.log(tasks);
+
+  /* handleSaveEdit Salva a edição de uma tarefa.
 Verifica se o novo texto (editingText) não está vazio.
 Atualiza o título da tarefa com o novo texto.
 Atualiza a data de modificação (updatedAt).
-Limpa os estados de edição (editingTaskId e editingText).*/
+Limpa os estados de edição (editingTaskId e editingText).
+*/
   const handleSaveEdit = (id: string) => {
     if (!editingText.trim()) return;
+
     setTasks((prev) =>
       prev?.map((task) =>
         task.id === id
@@ -353,7 +364,6 @@ Limpa os estados de edição (editingTaskId e editingText).*/
             )}
           </Box>
         </Flex>
-
       </Flex>
     </Flex>
   );
