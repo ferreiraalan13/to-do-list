@@ -51,6 +51,15 @@ const ToDoList = () => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  /*
+  adicionarTarefa
+  Adiciona uma nova tarefa na lista.
+  Verifica se o campo da nova tarefa (newTask) não está vazio.
+  Cria um objeto de tarefa (task) com título, ID, status de completado falso e datas de criação e atualização.
+  Adiciona essa tarefa à lista de tarefas (setTasks).
+  Limpa o campo de input (setNewTask("")).
+  Mostra um aviso (toast) de sucesso.
+  */
   const adicionarTarefa = () => {
     if (!newTask.trim()) return;
 
@@ -68,10 +77,29 @@ const ToDoList = () => {
     toast({ title: "Tarefa criada!", status: "success", duration: 1500 });
   };
 
+  /*
+  deletarTarefa
+  Remove uma tarefa da lista com base no id.
+  Filtra a lista de tarefas, removendo aquela com o ID informado.
+  Atualiza a lista.
+  Mostra um toast dizendo que a tarefa foi excluída.
+ */
+
   const deletarTarefa = (id: string) => {
     setTasks((prev) => prev?.filter((task) => task.id !== id));
     toast({ title: "Tarefa excluída!", status: "info", duration: 1500 });
   };
+
+/*
+  completarTarefa
+  Marca uma tarefa como completa ou incompleta (toggle).
+  Percorre as tarefas.
+  Se o ID bater, ela:
+  Inverte o valor de isCompleted.
+  Atualiza a data de modificação (updatedAt).
+  Se a tarefa for marcada como concluída, adiciona a data de conclusão (completedAt); se desmarcar, essa data é removida.
+  Atualiza a lista com essas mudanças.
+*/
 
   const completarTarefa = (id: string) => {
     setTasks((prev) =>
@@ -90,6 +118,11 @@ const ToDoList = () => {
     );
   };
 
+/*
+editarTarefa (Prepara uma tarefa para ser editada.)
+Passo a passo:
+Procura a tarefa pelo ID.
+Se encontrar, salva o ID da tarefa em edição (setEditingTaskId) e o texto atual dela (setEditingText) para editar depois. */
   const editarTarefa = (id: string) => {
     const task = tasks.find((t) => t.id === id);
     if (task) {
@@ -98,6 +131,11 @@ const ToDoList = () => {
     }
   };
 
+/* handleSaveEdit Salva a edição de uma tarefa.
+Verifica se o novo texto (editingText) não está vazio.
+Atualiza o título da tarefa com o novo texto.
+Atualiza a data de modificação (updatedAt).
+Limpa os estados de edição (editingTaskId e editingText).*/
   const handleSaveEdit = (id: string) => {
     if (!editingText.trim()) return;
     setTasks((prev) =>
@@ -316,206 +354,6 @@ const ToDoList = () => {
           </Box>
         </Flex>
 
-        {/* 
-          <Box
-            width="100%"
-            maxW="600px"
-            borderWidth={4}
-            borderColor="gray.600"
-            borderRadius="lg"
-            bg="white"
-            p={5}
-            position="relative"
-            boxShadow="lg"
-            _before={{
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: "50px",
-              width: "2px",
-              height: "100%",
-  
-              zIndex: 1,
-            }}
-            _after={{
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              opacity: 0.4,
-              zIndex: 0,
-            }}
-          >
-            <Text fontSize="2xl" mb={4} fontWeight="bold">
-              Meu Caderno de Tarefas
-            </Text>
-  
-            <List spacing={3} position="relative" zIndex={2}>
-              {tasks?.map((task) => (
-                <>
-                  <ListItem key={task.id} pl="60px">
-                    <Flex align="center" justify="space-between">
-                      <Flex align="center" gap={3}>
-                        <Checkbox
-                          isChecked={task.isCompleted}
-                          onChange={() => completarTarefa(task.id)}
-                        />
-  
-                        {editingTaskId === task.id ? (
-                          <Input
-                            value={editingText}
-                            onChange={(e) => setEditingText(e.target.value)}
-                            onKeyDown={(e) =>
-                              e.key === "Enter" && handleSaveEdit(task.id)
-                            }
-                            size="sm"
-                          />
-                        ) : (
-                          <Text
-                            as={task.isCompleted ? "s" : undefined}
-                            fontWeight="medium"
-                          >
-                            {task.title}
-                          </Text>
-                        )}
-                      </Flex>
-  
-                      <Flex gap={2}>
-                        {editingTaskId === task.id ? (
-                          <>
-                            <IconButton
-                              size="sm"
-                              aria-label="Salvar"
-                              icon={<PiCheckCircleDuotone />}
-                              onClick={() => handleSaveEdit(task.id)}
-                              colorScheme="green"
-                            />
-                            <IconButton
-                              size="sm"
-                              aria-label="Cancelar"
-                              icon={<IoCloseCircleOutline />}
-                              onClick={() => setEditingTaskId(null)}
-                              colorScheme="gray"
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <IconButton
-                              size="sm"
-                              aria-label="Editar"
-                              icon={<MdEdit />}
-                              onClick={() => editarTarefa(task.id)}
-                              colorScheme="blue"
-                            />
-                            <IconButton
-                              size="sm"
-                              aria-label="Deletar"
-                              icon={<IoTrash />}
-                              onClick={() => deletarTarefa(task.id)}
-                              colorScheme="red"
-                            />
-                          </>
-                        )}
-                      </Flex>
-                    </Flex>
-                  </ListItem>
-                  <Divider />
-                </>
-              ))}
-            </List>
-          </Box> */}
-
-        {/* <List spacing={3} width="100%" maxW="500px">
-            {tasks?.map((task) => (
-              <ListItem
-                key={task.id}
-                p={3}
-                borderWidth={1}
-                borderRadius="md"
-                bg={task.isCompleted ? "green.50" : "gray.50"}
-              >
-                <Flex align="center" justify="space-between">
-                  <Flex align="center" gap={3}>
-                    <Checkbox
-                      isChecked={task.isCompleted}
-                      onChange={() => completarTarefa(task.id)}
-                    />
-  
-                    {editingTaskId === task.id ? (
-                      <Input
-                        value={editingText}
-                        onChange={(e) => setEditingText(e.target.value)}
-                        onKeyDown={(e) =>
-                          e.key === "Enter" && handleSaveEdit(task.id)
-                        }
-                      />
-                    ) : (
-                      <Box>
-                        <Text
-                          as={task.isCompleted ? "s" : undefined}
-                          fontWeight="medium"
-                        >
-                          {task.title}
-                        </Text>
-                        <Text fontSize="xs" color="gray.500">
-                          Criado: {new Date(task.createdAt).toLocaleString()}
-                        </Text>
-                        <Text fontSize="xs" color="gray.500">
-                          Atualizado: {new Date(task.updatedAt).toLocaleString()}
-                        </Text>
-                        {task.completedAt && (
-                          <Text fontSize="xs" color="green.600">
-                            Concluído:{" "}
-                            {new Date(task.completedAt).toLocaleString()}
-                          </Text>
-                        )}
-                      </Box>
-                    )}
-                  </Flex>
-  
-                  <Flex gap={2}>
-                    {editingTaskId === task.id ? (
-                      <>
-                        <IconButton
-                          size="sm"
-                          aria-label="Salvar"
-                          icon={<PiCheckCircleDuotone />}
-                          onClick={() => handleSaveEdit(task.id)}
-                          colorScheme="green"
-                        />
-                        <IconButton
-                          size="sm"
-                          aria-label="Cancelar"
-                          icon={<IoCloseCircleOutline />}
-                          onClick={() => setEditingTaskId(null)}
-                          colorScheme="gray"
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <IconButton
-                          size="sm"
-                          aria-label="Editar"
-                          icon={<MdEdit />}
-                          onClick={() => editarTarefa(task.id)}
-                          colorScheme="blue"
-                        />
-                        <IconButton
-                          size="sm"
-                          aria-label="Deletar"
-                          icon={<IoTrash />}
-                          onClick={() => deletarTarefa(task.id)}
-                          colorScheme="red"
-                        />
-                      </>
-                    )}
-                  </Flex>
-                </Flex>
-              </ListItem>
-            ))}
-          </List> */}
       </Flex>
     </Flex>
   );
