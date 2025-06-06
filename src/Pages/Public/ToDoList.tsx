@@ -138,8 +138,6 @@ Se encontrar, salva o ID da tarefa em edição (setEditingTaskId) e o texto atua
     }
   };
 
-  console.log(tasks);
-
   /* handleSaveEdit Salva a edição de uma tarefa.
 Verifica se o novo texto (editingText) não está vazio.
 Atualiza o título da tarefa com o novo texto.
